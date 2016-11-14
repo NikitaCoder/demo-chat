@@ -17,8 +17,12 @@ app.use(express.static(__dirname + '/public'));
 
 app.set('view engine','pug');
 
+app.post('/api/register', (req,res) =>{
+    console.log(req.body);
+});
+
 app.get('*',(req,res)=>{
-    res.render('index',{title: 'Home Page'});
+    res.render('index');
 });
 
 app.listen(3000,()=>{

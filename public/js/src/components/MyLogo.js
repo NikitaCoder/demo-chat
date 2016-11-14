@@ -1,7 +1,18 @@
 import React, {Component} from 'react';
 
-function MyLogo(){
-    var use_tag = `<use xmlns:xlink="http://www.w3.org/1999/xlink"/><defs>
+class MyLogo extends Component{
+    constructor(props){
+        super(props);
+
+        this.handleRedirect = this.handleRedirect.bind(this);
+    }
+
+    handleRedirect(){
+        window.location.href="/home";
+    }
+
+    render() {
+     var use_tag = `<use xmlns:xlink="http://www.w3.org/1999/xlink"/><defs>
                     <style>
                     @font-face {
                         font-family: "Montserrat--bold--normal";
@@ -29,11 +40,13 @@ function MyLogo(){
 
     </g>
 </g>`;
-    return (
-        <div className="logo" >
-        <svg  className="logo_svg"dangerouslySetInnerHTML={{__html: use_tag}} width="400px" version="1.1" xmlns="http://www.w3.org/2000/svg"  preserveAspectRatio="xMidYMid meet" viewBox="528 267 179 166" />
-        </div>
-    );
+        return (
+            <div onClick={this.handleRedirect} className="logo" >
+            <svg  className="logo_svg"dangerouslySetInnerHTML={{__html: use_tag}} width="400px" version="1.1" xmlns="http://www.w3.org/2000/svg"  preserveAspectRatio="xMidYMid meet" viewBox="528 267 179 166" />
+            </div>
+        );
+    }
 }
+   
 
 export default MyLogo;

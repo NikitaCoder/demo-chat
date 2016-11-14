@@ -39,7 +39,7 @@ class Header extends React.Component{
             <header>
                 <AppBar
                     style={style.appBar}
-                    iconClassNameRight="muidocs-icon-navigation-expand-more"
+                    iconClassNameRight="github"
                     onLeftIconButtonTouchTap={this.handleLeftTouchTap}
                 />
                 <Drawer
@@ -49,8 +49,12 @@ class Header extends React.Component{
                     onRequestChange={(open) => this.setState({open})}
                     openSecondary={true}
                 >
-                    <MenuItem onTouchTap={this.handleClose}>Menu Item</MenuItem>
-                    <MenuItem onTouchTap={this.handleClose}>Menu Item 2</MenuItem>
+                    <MenuItem onTouchTap={this.handleClose}><a className="menu_link" href="/home">Home</a></MenuItem>
+                    <MenuItem onTouchTap={this.handleClose}><a className="menu_link" href="/register">Register</a></MenuItem>
+                    <MenuItem onTouchTap={this.handleClose}><a className="menu_link" href="/getstarted">Get Started</a></MenuItem>
+                    <MenuItem onTouchTap={this.handleClose}><a className="menu_link" href="/conversation">Get Started</a></MenuItem>
+                    <MenuItem onTouchTap={this.handleClose}><a className="menu_link" href="/profile">Profile</a></MenuItem>
+                    <MenuItem onTouchTap={this.handleClose}><a className="menu_link" href="/contacts">Contacts</a></MenuItem>
                 </Drawer>
             </header>
         );

@@ -12,14 +12,16 @@ class LoginForm extends React.Component{
     <div>
     <TextField 
       value={this.props.nick}
-      onChange={this.props.onLoginNick}
-      hintText="Nick or E-mail"
-      floatingLabelText="Nick or E-mail"
+      onChange={this.props.onLoginData}
+      name="nick"
+      hintText="E-mail"
+      floatingLabelText="E-mail"
     /><br />
     <br />
     <TextField 
-      onChange={this.props.onLoginPassword}
+      onChange={this.props.onLoginData}
       value={this.props.password}
+      name="password"
       hintText="Password Field"
       floatingLabelText="Password"
       type="password"

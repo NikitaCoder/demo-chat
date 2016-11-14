@@ -54,6 +54,7 @@ body {
 .logo{
   position: relative !important;
 	margin-top: 55px;
+	cursor: pointer;
 }
 
 .logo_svg{
@@ -79,6 +80,41 @@ body {
 	font-size: 25px;
 	text-align: left;
 	line-height: 2;
+}
+
+.menu_link{
+	text-decoration: none;
+	color: inherit;
+}
+.get_started_container{
+	width: 80%;
+	margin: auto;
+	margin-top: 20px;
+}
+.main_header {
+	font-size: 30px;
+	border-bottom: 1px solid #777;
+	padding: 15px;
+	display: inline-block;
+	color: #9E9D24;
+}
+
+.github{
+	background: url('/logo/GitHub-Mark-120px-plus.png');
+}
+.get_started{
+	padding: 15px;
+	margin: 30px;
+}
+
+.user_data{
+	font-size: 30px;
+	padding-top: 150px;
+}
+
+.avatar{
+	width: 100px;
+	height: 100px;
 }
 
 @media(max-width: 450px){

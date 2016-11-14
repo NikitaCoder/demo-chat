@@ -4,9 +4,9 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import MyLogo from '../components/MyLogo';
-import AppBar from 'material-ui/AppBar';
+//import AppBar from 'material-ui/AppBar';
 import LoginForm from '../components/LoginForm';
-import RegisterForm from '../components/RegisterForm';
+//import RegisterForm from '../components/RegisterForm';
 import styles from '../components/styles';
 import muiTheme from '../components/muiTheme';
 import 'whatwg-fetch';
@@ -20,8 +20,7 @@ class Main extends Component {
 
     this.handleRequestClose = this.handleRequestClose.bind(this);
     this.handleTouchTap = this.handleTouchTap.bind(this);
-    this.handleRequestLoginNick = this.handleRequestLoginNick.bind(this);
-    this.handleRequestLoginPassword = this.handleRequestLoginPassword.bind(this);
+    this.handleLoginData = this.handleLoginData.bind(this);
     this.handleRequestLogin = this.handleRequestLogin.bind(this);
 
     this.state = {
@@ -45,17 +44,11 @@ class Main extends Component {
     console.log(this.state.password);
   }
 
-  handleRequestLoginNick(e){
+  handleLoginData(e){
     this.setState({
-      nick: e.target.value,
+      [e.target.name] : e.target.value,
     });
   }
-  handleRequestLoginPassword(e){
-   this.setState({
-      password: e.target.value,
-    });
-  }
-  
 
   handleTouchTap() {
     this.setState({
@@ -79,7 +72,7 @@ class Main extends Component {
     ];
 
     return (
-      <MuiThemeProvider muiTheme={this.props.muiTheme ? this.props.muiTheme: muiTheme}>
+     
         <div style={styles.container}>
         <Header />
           <div style={styles.intro} >
@@ -95,15 +88,15 @@ class Main extends Component {
                    <LoginForm
                       nick={this.state.nick} 
                       password={this.state.password} 
-                      onLoginNick={this.handleRequestLoginNick} 
-                      onLoginPassword={this.handleRequestLoginPassword} />
+                      onLoginData={this.handleLoginData} 
+                    />
                 </Dialog>
                 <MyLogo  />
                 <RaisedButton
                     style={styles.button}
                     label="Register"
                     secondary={true}
-                    onTouchTap={this.handleTouchTap}
+                    href="/register"
                 />
                 <strong style={styles.orcomp}> or </strong>
                 <RaisedButton
@@ -117,13 +110,13 @@ class Main extends Component {
                   style={styles.getStart}
                   label="Get Started"
                   secondary={true}
-                  onTouchTap={this.handleTouchTap}
+                  href="/getstarted"
                 />
                 </div>
             </div>
             <Footer />
         </div>
-      </MuiThemeProvider>
+   
     );
   }
 }

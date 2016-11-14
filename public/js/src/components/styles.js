@@ -1,4 +1,4 @@
-import { green200 } from 'material-ui/styles/colors';
+import { green200, lime800 } from 'material-ui/styles/colors';
 
 const styles = {
   container: {
@@ -11,6 +11,27 @@ const styles = {
       height: '350px',
       color: '#fff',
       fontSize: 30
+  },
+  linkColor:{
+      color: lime800,
+  },
+  userData: {
+      width: '98%',
+      fontSize: '30px',
+      textAlign: 'justify',
+      lineHeight: '2',
+      paddingTop: '100px',
+      margin: 'auto',
+  },
+  contacts: {
+      width: '98%',
+      margin: 'auto',
+      paddingTop: '100px',
+  },
+  userCard: {
+      width: '100%',
+      fontSize: '20px',
+      display: 'inline-block',
   },
   logo: {
       position: 'relative',
@@ -26,7 +47,10 @@ const styles = {
   },
   getStart: {
       marginTop: '30px'
-  }
+  },
+  postCont: {
+      paddingTop: '10px',
+  },
 };
 
 export default styles;
