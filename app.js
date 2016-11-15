@@ -1,10 +1,10 @@
-require('babel-register')({
+/*require('babel-register')({
     presets: ["es2015", "react", "stage-0"]
-});
-
+});*/
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const api = require('./api');
 
 process.env.NODE_ENV = 'development';
 
@@ -17,9 +17,7 @@ app.use(express.static(__dirname + '/public'));
 
 app.set('view engine','pug');
 
-app.post('/api/register', (req,res) =>{
-    console.log(req.body);
-});
+app.use('/api',api);
 
 app.get('*',(req,res)=>{
     res.render('index');

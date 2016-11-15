@@ -1,4 +1,5 @@
 var AppDispatcher = require('./AppDispatcher');
+var UserStore = require('./UserStore');
 
 var RegisterActions = {
 

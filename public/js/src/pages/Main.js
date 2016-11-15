@@ -4,14 +4,12 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import MyLogo from '../components/MyLogo';
-//import AppBar from 'material-ui/AppBar';
 import LoginForm from '../components/LoginForm';
-//import RegisterForm from '../components/RegisterForm';
 import styles from '../components/styles';
-import muiTheme from '../components/muiTheme';
 import 'whatwg-fetch';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import LoginActions from '../api/LoginActions';
 
 
 class Main extends Component {
@@ -40,8 +38,10 @@ class Main extends Component {
     });
   }
   handleRequestLogin(){
-    console.log(this.state.nick);
-    console.log(this.state.password);
+    LoginActions.login({
+      email: this.state.nick,
+      password: this.state.password,
+    });
   }
 
   handleLoginData(e){

@@ -11,20 +11,22 @@ class Posts extends React.Component{
 
     }
 
+    cleanHtml(){
+        return { __html: this.props.message.text}
+    }
+
     render(){
         return(
             <div style={styles.postCont}>
                 <Card>
                     <CardHeader
-                    title="Sam Jones"
+                    title={this.props.message.user}
+                    subtitle={this.props.message.data}
                     avatar="logo/logo.png"
                     />
                     
                     <CardText>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-                    Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-                    Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
+                 {this.props.message.text}
                     </CardText>
                     <CardActions>
                     <FlatButton label="Action1" />

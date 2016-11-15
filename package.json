@@ -18,6 +18,8 @@
     "css-loader": "^0.25.0",
     "express": "^4.14.0",
     "flux": "^3.1.0",
+    "formsy-material-ui": "^0.5.2",
+    "formsy-react": "^0.18.1",
     "material-ui": "^0.16.1",
     "object-assign": "^4.1.0",
     "pug": "^2.0.0-beta6",
