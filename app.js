@@ -19,6 +19,10 @@ app.set('view engine','pug');
 
 app.use('/api',api);
 
+app.get('/', function (req, res) {
+    res.status('200').send('Service is up');
+});
+
 app.get('*',(req,res)=>{
     res.render('index');
 });
