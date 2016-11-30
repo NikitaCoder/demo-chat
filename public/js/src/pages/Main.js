@@ -5,11 +5,13 @@ import FlatButton from 'material-ui/FlatButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import MyLogo from '../components/MyLogo';
 import LoginForm from '../components/LoginForm';
+import LoginError from '../components/LoginError';
 import styles from '../components/styles';
 import 'whatwg-fetch';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import LoginActions from '../api/LoginActions';
+import LoginActions from '../api/actions/LoginActions';
+import UserStore from '../api/stores/UserStore';
 
 
 class Main extends Component {
@@ -20,8 +22,11 @@ class Main extends Component {
     this.handleTouchTap = this.handleTouchTap.bind(this);
     this.handleLoginData = this.handleLoginData.bind(this);
     this.handleRequestLogin = this.handleRequestLogin.bind(this);
+    this._onRegiser = this._onRegiser.bind(this);
 
     this.state = {
+      loggedIn: UserStore.isLoggedIn(),
+      loginError: UserStore.getLoginError(),
       open: false,
       nick: '',
       password: '',
@@ -29,8 +34,21 @@ class Main extends Component {
     };
   }
   componentDidMount(){
+    UserStore.addChangeListener(this._onRegiser);
     document.title="Demo Chat";
   }
+
+  componentWillUnmount(){
+    UserStore.removeChangeListener(this._onRegiser);
+  }
+
+  _onRegiser(){
+    this.setState({
+      loggedIn: UserStore.isLoggedIn(),
+      loginError: UserStore.getLoginError()
+    });
+  }
+
 
   handleRequestClose() {
     this.setState({
@@ -38,10 +56,13 @@ class Main extends Component {
     });
   }
   handleRequestLogin(){
-    LoginActions.login({
-      email: this.state.nick,
-      password: this.state.password,
-    });
+    if(this.state.nick.trim() && this.state.password.trim()){
+        LoginActions.login({
+        email: this.state.nick,
+        password: this.state.password,
+      });
+    }
+    
   }
 
   handleLoginData(e){
@@ -71,10 +92,26 @@ class Main extends Component {
       />,
     ];
 
+   var login = "";
+        if(this.state.loginError){
+            login = <LoginError
+                  nick={this.state.nick} 
+                  password={this.state.password} 
+                  onLoginData={this.handleLoginData} 
+                       />;
+        }
+        else{
+            login =  <LoginForm
+                      nick={this.state.nick} 
+                      password={this.state.password} 
+                      onLoginData={this.handleLoginData} 
+                    />;
+        }
+
     return (
      
         <div style={styles.container}>
-        <Header />
+        <Header loggedIn={this.state.loggedIn} />
           <div style={styles.intro} >
             <span className="introText">Demo Chat application provides a convenient and fast way  of communicating  in real time</span>
           </div>
@@ -85,32 +122,28 @@ class Main extends Component {
                     actions={actions}
                     onRequestClose={this.handleRequestClose}
                 >
-                   <LoginForm
-                      nick={this.state.nick} 
-                      password={this.state.password} 
-                      onLoginData={this.handleLoginData} 
-                    />
+                  {login}
                 </Dialog>
                 <MyLogo  />
                 <RaisedButton
                     style={styles.button}
                     label="Register"
-                    secondary={true}
-                    href="/register"
+                    primary={true}
+                    href="#/register"
                 />
                 <strong style={styles.orcomp}> or </strong>
                 <RaisedButton
                     style={styles.button}
                     label="Login"
-                    secondary={true}
+                    primary={true}
                     onTouchTap={this.handleTouchTap}
                 />
                 <div>
                 <RaisedButton
                   style={styles.getStart}
                   label="Get Started"
-                  secondary={true}
-                  href="/getstarted"
+                  primary={true}
+                  href="#/getstarted"
                 />
                 </div>
             </div>

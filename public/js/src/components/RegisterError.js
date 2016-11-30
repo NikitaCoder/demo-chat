@@ -1,41 +1,25 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-//import AppDispatcher from '../api/AppDispatcher';
 import UserStore from '../api/stores/UserStore';
 import RegisterActions from '../api/actions/RegisterActions';
-import Formsy from 'formsy-react';
-import { FormsyText } from 'formsy-material-ui/lib';
 
 
-class RegisterForm extends React.Component {
+class RegisterError extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      firstName: '',
-      lastName: '',
-      nickName: '',
-      email: '',
+     // errors: UserStore.getErrors(),
+      firstName: UserStore.getFormData().firstName,
+      lastName: UserStore.getFormData().lastName,
+      nickName: UserStore.getFormData().nickName,
+      email: UserStore.getFormData().email,
       password: '',
-      canSubmit: false,
     };
 
     this.handleRegister = this.handleRegister.bind(this);
     this.handleInput = this.handleInput.bind(this);
-    this.enableButton = this.enableButton.bind(this);
-    this.disableButton = this.disableButton.bind(this);
   }
-
-  enableButton() {
-      this.setState({
-        canSubmit: true
-      });
-    }
-    disableButton() {
-      this.setState({
-        canSubmit: false
-      });
-    }
 
   handleRegister(){
     RegisterActions.register(this.state);
@@ -49,67 +33,81 @@ class RegisterForm extends React.Component {
     });
   }
 
+  componentWillMount(){
+     
+  }
+
   render(){
+      var firstErr = "";
+      var lastErr = "";
+      var nickErr = "";
+      var emailErr = "";
+      var passErr = "";
+      if( 'password' in this.props.errors){
+          passErr = this.props.errors.password.msg;
+      }
+      if( 'firstName' in this.props.errors){
+          firstErr = this.props.errors.firstName.msg;
+      }
+      if( 'lastName' in this.props.errors){
+          lastErr = this.props.errors.lastName.msg;
+      }
+      if( 'email' in this.props.errors){
+          emailErr = this.props.errors.email.msg;
+      }
+      if( 'nickName' in this.props.errors){
+          nickErr = this.props.errors.nickName.msg;
+      }
     return(
       <div>
-       <Formsy.Form
-            onValid={this.enableButton}
-            onInvalid={this.disableButton}
-      > 
-        <FormsyText
+        <TextField
           value={this.state.firstName}
           onChange={this.handleInput}
-          validations="isWords"
-          validationError="Only letters"
+          errorText={firstErr}
           name="firstName"
           hintText="First Name"
           floatingLabelText="First Name"
         /><br />
-        <FormsyText
+        <TextField
           value={this.state.lastName}
           onChange={this.handleInput}
-          validations="isWords"
-          validationError="Only letters"
+          errorText={lastErr}
           name="lastName"
           hintText="Last Name"
           floatingLabelText="Last Name"
         /><br />
-        <FormsyText
+        <TextField
           value={this.state.nickName}
           onChange={this.handleInput}
-          validations="isAlphanumeric"
-          validationError="Only letters and numeric"
+          errorText={nickErr}
           name="nickName"
           hintText="Nickname"
           floatingLabelText="Nickname"
         /><br />
-        <FormsyText
+        <TextField
           value={this.state.email}
           onChange={this.handleInput}
-          validations="isEmail"
-          validationError="E-mail is not valid"
+          errorText={emailErr}
           name="email"
           hintText="E-mail"
           floatingLabelText="E-mail"
         /><br />
         <br />
-        <FormsyText
+        <TextField
           value={this.state.password}
           onChange={this.handleInput}
-          validations="minLength:8"
-          validationError="Minimum 8 symbols"
+          errorText={passErr}
           name="password"
           hintText="Password Field"
           floatingLabelText="Password"
           type="password"
         /><br />
         <br />
-        <RaisedButton label="Register" primary={true}  disabled={!this.state.canSubmit} onClick={this.handleRegister} />
-      </Formsy.Form>
+        <RaisedButton label="Register" primary={true} onClick={this.handleRegister} />
     </div>
     );
   }
 }
 
 
-module.exports=RegisterForm;
+module.exports=RegisterError;

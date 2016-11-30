@@ -8,11 +8,7 @@ import FlatButton from 'material-ui/FlatButton';
 class Posts extends React.Component{
     constructor(props){
         super(props);
-
-    }
-
-    cleanHtml(){
-        return { __html: this.props.message.text}
+        
     }
 
     render(){
@@ -20,18 +16,14 @@ class Posts extends React.Component{
             <div style={styles.postCont}>
                 <Card>
                     <CardHeader
-                    title={this.props.message.user}
-                    subtitle={this.props.message.data}
-                    avatar="logo/logo.png"
+                    title={this.props.message.author.nickName}
+                    subtitle={new Date(this.props.message.date).toString()}
+                    avatar={this.props.message.author.avatar ? 'uploads/avatars/' + this.props.message.author.avatar : "logo/no-avatar.png"}
                     />
                     
                     <CardText>
                  {this.props.message.text}
                     </CardText>
-                    <CardActions>
-                    <FlatButton label="Action1" />
-                    <FlatButton label="Action2" />
-                    </CardActions>
                 </Card>
             </div>
         );

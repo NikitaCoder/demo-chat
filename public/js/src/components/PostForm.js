@@ -6,11 +6,11 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import { green900, lime800 } from 'material-ui/styles/colors';
+import UserActions from '../api/actions/UserActions';
 
 class PostForm extends React.Component{
     constructor(props){
         super(props);
-
         this.state = 
         {
             messageValue: '',
@@ -27,7 +27,8 @@ class PostForm extends React.Component{
     }
 
     handleSend(e){
-        this.props.onSend(this.state.messageValue);
+        if(this.state.messageValue.trim())
+            UserActions.send({ message: this.state.messageValue, convId: this.props.convId});
     }
 
     render(){
@@ -35,8 +36,8 @@ class PostForm extends React.Component{
             <div>
                 <Card>
                     <CardHeader
-                    title="Sam Jones"
-                    avatar="logo/logo.png"
+                    title={this.props.user.nickName}
+                    avatar={this.props.user.avatar ? 'uploads/avatars/' + this.props.user.avatar : "logo/logo.png"}
                     />
                     <CardText>
                          <TextField

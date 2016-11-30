@@ -10,68 +10,55 @@ import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
 import { lime800 } from 'material-ui/styles/colors';
 import {Card, CardActions, CardHeader, CardText, CardTitle} from 'material-ui/Card';
+import UserStore from '../api/stores/UserStore';
 
-var AllMessages = [];
 
 class Conversation extends React.Component{
     constructor(props, context){
         super(props, context);
-
         this.state=
         {
-            messages: AllMessages,
+            convId: UserStore.getConversationId(),
+            messages: UserStore.getMessages(),
+            loggedIn: UserStore.isLoggedIn(),
+            user: UserStore.getUser(),
         }
-        this.handleSendClick = this.handleSendClick.bind(this);
+        this._onRegiser = this._onRegiser.bind(this);
 
     }
-    componentWillMount(){
-         fetch('/api/geMessages', {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json'
-            },
-        }).then(function(res){
-            return res.json();
-        }).then(function(json){
-            console.log(json);
-           AllMessages = json;
-           this.setState({
-               messages: AllMessages
-           })
-            return json;
-        }.bind(this)).catch(function(err){
-            return err;
-        });
-        
-    }
 
-     componentDidMount(){
+    componentDidMount(){
+        UserStore.addChangeListener(this._onRegiser);
         document.title="Conversation";
     }
 
-    handleSendClick(data){
-        AllMessages.push({user: 'Sam Williams', date: 'today', text: data, id: (AllMessages.length+1)});
+    componentWillUnmount(){
+        UserStore.removeChangeListener(this._onRegiser);
+    }
+
+    _onRegiser(){
         this.setState({
-            messages: AllMessages,
+            convId: UserStore.getConversationId(),
+            messages: UserStore.getMessages(),
+            loggedIn: UserStore.isLoggedIn(),
+            user: UserStore.getUser(),
         });
     }
 
     render(){
-        console.log(this.state.messages);
         var postsData = this.state.messages.map((obj) =>{
             return (
-                <Posts message={obj} key={obj.id} />
+                <Posts message={obj} key={obj._id} />
             );
         });
-
         return(
            <div style={styles.container}>
-                <Header />
+                <Header loggedIn={this.state.loggedIn} />
                 <div style={styles.userData} >
                     {postsData}
                 </div> 
                 <div style={styles.userData}>
-                    <PostForm onSend={this.handleSendClick} />
+                    <PostForm user={this.state.user} convId={this.state.convId} />
                 </div>        
                 <Footer />
            </div>

@@ -17,7 +17,7 @@ const muiTheme = getMuiTheme({
     pickerHeaderColor: green900,
     clockCircleColor: fade(darkBlack, 0.07),
     shadowColor: fullBlack,
-    accent1Color: green900,
+    accent1Color: lime500,
   } 
 }, {
   avatar: {

@@ -26,7 +26,7 @@ const styles = {
   contacts: {
       width: '98%',
       margin: 'auto',
-      paddingTop: '100px',
+      paddingTop: '15px',
   },
   userCard: {
       width: '100%',
@@ -38,6 +38,11 @@ const styles = {
   },
   button: {
       margin: '5px',
+  },
+  tabs: {
+      paddingTop: '150px',
+      width: '98%', 
+      margin: 'auto',
   },
   content: {
       paddingTop: 180
@@ -51,6 +56,19 @@ const styles = {
   postCont: {
       paddingTop: '10px',
   },
+  exampleImageInput: {
+    cursor: 'pointer',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+    width: '100%',
+    opacity: 0,
+  },
+  error: {
+      color: 'red',
+  }
 };
 
 export default styles;

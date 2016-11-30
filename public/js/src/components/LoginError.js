@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import TextField from 'material-ui/TextField';
 import Formsy from 'formsy-react';
 import { FormsyText } from 'formsy-material-ui/lib';
+import styles from '../components/styles';
 
 class LoginForm extends React.Component{
   constructor(props){
@@ -36,6 +37,9 @@ class LoginForm extends React.Component{
       
     /><br />
     </ Formsy.Form>
+    <br />
+    <h3 style={styles.error}>Invalid email or password</h3>
+
   </div>
 );
   }

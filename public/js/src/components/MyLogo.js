@@ -8,7 +8,7 @@ class MyLogo extends Component{
     }
 
     handleRedirect(){
-        window.location.href="/home";
+        window.location.href="#/home";
     }
 
     render() {
