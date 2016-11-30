@@ -9,18 +9,31 @@ var Count = "";
 
 function addNotification(data){
     if(data.notif){
-        if(Notifications.length >= 4){
-            Notifications.pop();
-            Notifications.unshift(data.notif);
-        }
-        else{
-            Notifications.unshift(data.notif);
-        }
+        Notifications.push(data.notif);
         if(Count){
                 Count++;
             }
         else{
             Count = 1;        
+        }
+    }
+}
+
+function changeNotificationById(id){
+    for(let i = 0; i< Notifications.length; i++){
+        if(Notifications[i]._id == id){
+            Notifications[i].read = true;
+            Count ? Count-- : Count="";
+        }
+    }
+}
+function deleteNotification(id){
+    for(let i = 0; i< Notifications.length; i++){
+        if(Notifications[i]._id == id){
+            if(!Notifications[i].read){
+                Count ? Count-- : Count="";
+            }
+            Notifications.splice(i,1);
         }
     }
 }
@@ -51,10 +64,15 @@ NotificationStore.dispatchToken = AppDispatcher.register(function(payload){
     case 'addContactRequest':
         NotificationStore.emitChange();
         break;
+    case 'notificationRead':
+        changeNotificationById(payload.data.id);
+        NotificationStore.emitChange();
+    case 'notificationDeleted':
+        deleteNotification(payload.data.id);
+        NotificationStore.emitChange();
     case 'userChecked':
         Notifications = payload.data.notifs.msg;
         Count = payload.data.notifs.count
-        console.log(payload.data);
         NotificationStore.emitChange();
         break;
     case 'login':

@@ -11,17 +11,18 @@ var UserActions = {
       data: data,
     });
   },
-
+  getConversations: function(){
+    UserApi.getConversations();
+  },
+  setReadStatus: function(data){
+    UserApi.sendRead(data);
+  },
+  deleteNotification: function(id){
+    UserApi.deleteNotification(id);
+  },
   searchContacts: function(data){
     AppDispatcher.dispatch({
       eventType: 'searchContacts',
-      data: data,
-    });
-  },
-
-  sendMessage: function(data){
-    AppDispatcher.dispatch({
-      eventType: 'sendMessage',
       data: data,
     });
   },

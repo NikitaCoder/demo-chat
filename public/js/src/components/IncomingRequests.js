@@ -22,6 +22,8 @@ class IncomingRequests extends React.Component{
 
         this.handleDeleteTogle = this.handleDeleteTogle.bind(this);
         this.handlConfirmRequest = this.handlConfirmRequest.bind(this);
+        this.handleDeleteCloseRequest = this.handleDeleteCloseRequest.bind(this);
+        this.cancelRequest = this.cancelRequest.bind(this);
     }
 
     handleDeleteTogle(name, id){

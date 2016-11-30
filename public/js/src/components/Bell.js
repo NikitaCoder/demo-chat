@@ -67,7 +67,7 @@ class Bell extends React.Component{
                             iconStyle={{color: '#fff'}}
                             iconClassName="material-icons"
                             tooltip="incoming messages"
-                            onTouchTap={this.handleOpenPopup}
+                            href="#/notifications"
                             touch={true}
                             >
                             

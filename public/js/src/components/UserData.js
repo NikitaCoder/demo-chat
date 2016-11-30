@@ -12,32 +12,43 @@ import Subheader from 'material-ui/Subheader';
 import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bubble';
 import UserActions from '../api/actions/UserActions';
 import UserStore from '../api/stores/UserStore';
+import ConversationStore from '../api/stores/ConversationStore';
 
 
 class UserData extends React.Component{
     constructor(props){
         super(props);
+       UserActions.getConversations();
 
         this.state = 
         {
             avatar: '',
             file: '',
             imgUrl: false,
+            conversations: ConversationStore.getConversations(),
         };
 
         this._handleImageChange = this._handleImageChange.bind(this);
         this._handleSaveImage = this._handleSaveImage.bind(this);
         this._onRegiser = this._onRegiser.bind(this);
+        this._onLoadConversations = this._onLoadConversations.bind(this);
     }
 
     componentDidMount(){
         UserStore.addChangeListener(this._onRegiser);
+        ConversationStore.addChangeListener(this._onLoadConversations);
         document.title="Profile";
         
     }
 
     componentWillUnmount(){
         UserStore.removeChangeListener(this._onRegiser);
+        ConversationStore.removeChangeListener(this._onLoadConversations);
+    }
+    _onLoadConversations(){
+        this.setState({
+            conversations: ConversationStore.getConversations(),
+        });
     }
 
      _onRegiser(){
@@ -70,6 +81,14 @@ class UserData extends React.Component{
     }
 
     render(){
+        var conversations = this.state.conversations.map((obj) =>{
+            return(
+                <ListItem
+                    key={obj._id} 
+                    rightIcon={<CommunicationChatBubble />}
+                ><a style={{color: "#444", textDecoration: 'none'}} href={"#/conversation/"+ obj._id} >{obj.name}</a>{}</ListItem>
+            );
+        })
         var registeredDate = new Date(this.props.user.register_date);
         var year = registeredDate.getFullYear();
         var month = registeredDate.getMonth() + 1;
@@ -109,26 +128,7 @@ class UserData extends React.Component{
 
                                 <List >
                                 <Subheader style={ {fontSize: '20px', color: lime800} }>Your Conversations:</Subheader>
-                                 <ListItem
-                                    primaryText="Brendan Lim"
-                                    rightIcon={<CommunicationChatBubble />}
-                                />
-                                <ListItem
-                                    primaryText="Eric Hoffman"
-                                    rightIcon={<CommunicationChatBubble />}
-                                />
-                                <ListItem
-                                    primaryText="Grace Ng"
-                                    rightIcon={<CommunicationChatBubble />}
-                                />
-                                <ListItem
-                                    primaryText="Kerem Suer"
-                                    rightIcon={<CommunicationChatBubble />}
-                                />
-                                <ListItem
-                                    primaryText="Raquel Parrado"
-                                    rightIcon={<CommunicationChatBubble />}
-                                />
+                                 {conversations}
                             </List>
                             <Divider inset={true} />
                         </CardText>

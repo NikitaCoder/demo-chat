@@ -13,11 +13,6 @@ exports.connect = (url, params) =>{
 // Connection
 exports.deployConnection =  () => {
    
-  socket.on('new message',(data) =>{
-       console.log('new message');
-    UserStore.emit('change');
-  });
-
   socket.on('deleteContact',(id) =>{
       console.log('deleteContact');
     AppDispatcher.dispatch({
@@ -29,7 +24,6 @@ exports.deployConnection =  () => {
   });
 
   socket.on('add contact',(cont) =>{
-      console.log(cont);
       AppDispatcher.dispatch({
       eventType: 'addContact',
       data: cont,
@@ -37,7 +31,6 @@ exports.deployConnection =  () => {
   });
 
   socket.on('incoming request', (incoming) =>{
-      console.log(incoming);
       AppDispatcher.dispatch({
       eventType: 'icomingRequest',
       data: incoming,

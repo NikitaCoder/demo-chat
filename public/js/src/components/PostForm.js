@@ -27,8 +27,12 @@ class PostForm extends React.Component{
     }
 
     handleSend(e){
-        if(this.state.messageValue.trim())
-            UserActions.send({ message: this.state.messageValue, convId: this.props.convId});
+        if(this.state.messageValue.trim()){
+             UserActions.send({ message: this.state.messageValue, convId: this.props.convId});
+             this.setState({
+                 messageValue: '',
+             });
+        }
     }
 
     render(){

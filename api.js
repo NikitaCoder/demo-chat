@@ -67,8 +67,7 @@ router.post('/login', (req,res) =>{
                                     console.log(err);
                                 }
                                 else{
-                                    if(count){
-                                    Notification.find({userId: ObjectId(user._id), read: false}).limit(4).exec((err,notifs) =>{
+                                    Notification.find({userId: ObjectId(user._id)}).exec((err,notifs) =>{
                                         if(err){
                                             console.log(err);
                                         }
@@ -89,23 +88,7 @@ router.post('/login', (req,res) =>{
                                                 }));
                                         }
                                         });
-                                    }
-                                    else{
-                                          res.send(JSON.stringify({
-                                            user: {
-                                                firstName: user.firstName,
-                                                lastName: user.lastName,
-                                                nickName: user.nickName,
-                                                email: user.email,
-                                                register_date: user.register_date,
-                                                id: user._id,
-                                                avatar: user.avatar,
-                                            },
-                                            notifs: {count: '', msg: []},
-                                            status: true,
-                                            tok_res: token,
-                                            }));
-                                    }
+                                    
                                 }
                             });
                     }else{
@@ -193,6 +176,26 @@ router.post('/searchContacts',(req,res) =>{
      });
 });
 
+// Set Notification Read true
+router.post('/setNotificationRead',(req,res) =>{
+    jwt.verify(req.token, cert, function(err, decoded) {
+    if(!decoded || !decoded.data){
+      res.send(false);
+    }
+    else{
+        //console.log(req.body);
+       Notification.update({_id: ObjectId(req.body.id)},{ read : true},(err)=>{
+           if(!err){
+               res.send(JSON.stringify({
+                    status: true,
+                    id : req.body.id,
+                }));
+           }
+       })
+    }
+    });
+});
+
 // Check User 
 router.post('/checkUser',(req,res) => {
   jwt.verify(req.token, cert, function(err, decoded) {
@@ -210,8 +213,7 @@ router.post('/checkUser',(req,res) => {
                     console.log(err);
                 }
                 else{
-                    if(count){
-                        Notification.find({userId: ObjectId(user._id), read: false}).limit(4).exec((err,notifs) =>{
+                        Notification.find({userId: ObjectId(user._id)}).exec((err,notifs) =>{
                             if(err){
                                 console.log(err);
                             }
@@ -230,23 +232,7 @@ router.post('/checkUser',(req,res) => {
                                     status: true,      
                                 }));  
                             }
-                        })
-                    }
-                    else{
-                          res.send(JSON.stringify({
-                                    user: {
-                                        firstName: user.firstName,
-                                        lastName: user.lastName,
-                                        nickName: user.nickName,
-                                        email: user.email,
-                                        register_date: user.register_date,
-                                        id: user._id,
-                                        avatar: user.avatar,
-                                    },
-                                    notifs: { count: '', msg: []},
-                                    status: true,      
-                                }));
-                    }
+                        })    
                 }
             })
           
@@ -254,6 +240,28 @@ router.post('/checkUser',(req,res) => {
         });
     }
   });
+});
+
+// Get all conversations
+router.post('/getConversations',(req,res) =>{
+    jwt.verify(req.token, cert, function(err, decoded) {
+    if(!decoded || !decoded.data){
+      res.send(false);
+    }
+    else{
+        Conversation.find({members: {$all : [ObjectId(decoded.data.id)]}}).populate('members').exec((err,convs) =>{
+            if(err){
+                console.log(err);
+            }
+            else{
+                res.send(JSON.stringify({
+                    status: true,
+                    conversations: convs,
+                }));
+            }
+        });
+    }
+    });
 });
 
 // get Conversation By Id
@@ -453,7 +461,7 @@ router.post('/addRequest', (req,res) =>{
         else{
             Contact.findOne({contactId: ObjectId(decoded.data.id), userId: ObjectId(req.body.contact_id)}, (err,cont) => {
                 if(err){
-                   // console.log(err);
+                    console.log(err);
                 }
                 else{
                     if(cont){
@@ -466,7 +474,7 @@ router.post('/addRequest', (req,res) =>{
                         else{
                             Contact.update({_id: ObjectId(cont._id)},{ confirmed: true}, (err)=>{
                                 if(err){
-                                   // console.log(err);
+                                   console.log(err);
                                 }
                                 else{
                                     newCon = new Contact({
@@ -476,23 +484,23 @@ router.post('/addRequest', (req,res) =>{
                                     });
                                     newCon.save((err, cont) =>{
                             if(err){
-                               // console.log(err);
+                               console.log(err);
                             }
                             else{
                                 newNotif = new Notification({
                                     userId: ObjectId(req.body.contact_id),
-                                    subject: "your request was confirmed",
+                                    subject: "Your request was confirmed",
                                     text: decoded.data.nickName + " confirmed your request",
                                     read: false,
                                 });
                                 newNotif.save((err,not) =>{
                                     if(err){
-                                      //  console.log(err);
+                                      console.log(err);
                                     }
                                     else{
                                         Contact.populate(cont,{path: 'userId contactId'},(err,cont)=>{
                                             if(err){
-                                              //  console.log(err);
+                                              console.log(err);
                                             }
                                             else{
                                                 if(cont){
@@ -523,24 +531,24 @@ router.post('/addRequest', (req,res) =>{
                         });
                         newCont.save((err, cont) =>{
                             if(err){
-                               // console.log(err);
+                               console.log(err);
                             }
                             else{
                                 if(cont){
                                     newNotif = new Notification({
                                         userId: ObjectId(req.body.contact_id),
-                                        subject: "incoming request",
+                                        subject: "Incoming request",
                                         text: decoded.data.nickName + " want to add you to his contacts",
                                         read: false,
                                     });
                                     newNotif.save((err,not) =>{
                                     if(err){
-                                       // console.log(err);
+                                       console.log(err);
                                     }
                                     else{
                                         Contact.populate(cont,{path: 'userId contactId'},(err,cont)=>{
                                             if(err){
-                                              //  console.log(err);
+                                              console.log(err);
                                             }
                                             else{
                                                 if(cont){
@@ -601,6 +609,25 @@ router.delete('/deleteContact',(req,res) =>{
     });
 });
 
+// Delete Notification
+router.delete('/deleteNotification',(req,res) =>{
+     jwt.verify(req.token, cert, function(err, decoded) {
+        if(!decoded || !decoded.data){
+            res.send(false);
+        }
+        else{
+            Notification.remove({_id: ObjectId(req.body.id)}, (err) =>{
+                if(!err){
+                    res.send(JSON.stringify({
+                        status: true,
+                        id: req.body.id,
+                    }));
+                }
+            });
+        }
+    });
+});
+
 // socket connections data
 //var connections = 0;
 //var users = {};
@@ -634,118 +661,6 @@ io.sockets.on('connection',(socket) =>{
     console.log('Disconnected: %s sockets connected', users.connections);
   });
 
-  // Send message
-  socket.on('send message',(data)=>{
-    console.log(data);
-    console.log(socket.username);
-
-    var conv_name = socket.username + '_' + data.to;
-    Conversation.count({$and: [{members: {$all: [socket.user_id, data.recipient_id]}}, {"members" : { $size: 2}}]}, (err, c) => {
-        if(err){
-            console.log(err);
-        }   
-        else{
-            if(!c){
-               newConv = new Conversation({
-                   name: conv_name,
-                   members: [socket.user_id, data.recipient_id],
-               });
-               newConv.save((err,conv) =>{
-                   if(err){
-                       console.log(err);
-                   }
-                   else{
-                       newMess = new Message({
-                            conv_id: conv._id,
-                            author: new ObjectId(socket.user_id),
-                         //   recipient: new ObjectId(data.recipient_id),
-                            date: new Date().getTime(),
-                            text: data.message,
-                            file: '',
-                            read: true,
-                        });
-                       newMess.save((err,mess) => {
-                            if(err){
-
-                            }
-                            else{
-                                if(mess){
-                                     newNotif = new Notification({
-                                        userId: ObjectId(req.body.contact_id),
-                                        subject: "message",
-                                        text: "Incoming message from " + socket.username,
-                                        read: false,
-                                    });
-
-                                    newNotif.save((err,notif) =>{
-                                        if(err){
-
-                                        }
-                                        else{
-                                            if(notif){
-                                                if(data.recipient_id in users.users){
-                                                    users.users[data.recipient_id].emit('new message',{notif : notif, msg: mess});
-                                                }
-                                            }
-                                        }
-                                    })
-                                }  
-                            }
-                        });
-                   }
-               });
-            }
-            else{
-                Conversation.findOne({$and: [{members: {$all: [socket.user_id, data.recipient_id]}}, {"members" : { $size: 2}}]}, (err, conv) =>{
-                    if(err){
-                        console.log(err);
-                    }
-                    else{
-                        newMess = new Message({
-                            conv_id: conv._id,
-                            author: new ObjectId(socket.user_id),
-                          //  recipient: new ObjectId(data.recipient_id),
-                            date: new Date().getTime(),
-                            text: data.message,
-                            file: '',
-                            read: true,
-                        });
-                        newMess.save((err,mess) => {
-                            if(err){
-
-                            }
-                            else{
-                                if(mess){
-                                     newNotif = new Notification({
-                                        userId: ObjectId(req.body.contact_id),
-                                        subject: "message",
-                                        text: "Incoming message from " + socket.username,
-                                        read: false,
-                                    });
-
-                                    newNotif.save((err,notif) =>{
-                                        if(err){
-
-                                        }
-                                        else{
-                                            if(notif){
-                                               if(data.recipient_id in users.users){
-                                                    users.users[data.recipient_id].emit('new message',{notif : notif, msg: mess});
-                                                }
-                                            }
-                                        }
-                                    })
-                                } 
-                            }
-                        });
-                    }
-                });
-            }
-        }
-    });
-  });
-
-
   socket.on('conversation:send', (data) =>{
       Conversation.findOne({_id: ObjectId(data.convId)},(err,conv) =>{
           if(err){
@@ -770,8 +685,8 @@ io.sockets.on('connection',(socket) =>{
                             if(conv.members[i] != socket.user_id){
                                 newNotif = new Notification({
                                         userId: ObjectId(conv.members[i]),
-                                        subject: "message",
-                                        text: "Incoming message : "+socket.username,
+                                        subject: "Incoming message",
+                                        text: "Incoming message from "+socket.username,
                                         read: false,
                                     });
                                 newNotif.save((err,notif) =>{

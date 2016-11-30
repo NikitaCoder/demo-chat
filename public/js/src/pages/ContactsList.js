@@ -2,7 +2,6 @@ import React from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import styles from '../components/styles';
-import SendMessageDialog from '../components/SendMessageDialog';
 import DeleteDialog from '../components/DeleteDialog';
 import {List, ListItem} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
@@ -33,16 +32,13 @@ class ContactList extends React.Component{
             contacts: ContactStore.ContactsList(),
             incomingReq: ContactStore.getIncomingReq(),
             outcomingReq: ContactStore.getOutcomingReq(),
-            messageTogle: false,
             deleteTogle: false,
             messageValue: '',
-            temporalUser: {},
             userToDelete: {},
         }
 
         this._onRegister = this._onRegister.bind(this);
         this._onContactChange = this._onContactChange.bind(this);
-        this.handleSendMessage = this.handleSendMessage.bind(this);
         this.handleRequestClose = this.handleRequestClose.bind(this);
         this.handleDeleteTogle = this.handleDeleteTogle.bind(this);
         this.handleDeleteCloseRequest = this.handleDeleteCloseRequest.bind(this);
@@ -77,18 +73,6 @@ class ContactList extends React.Component{
         this.setState({
             deleteTogle: false,
         });
-    }
-
-    handleSendMessage(name, id){
-        return function(e){
-            this.setState({
-                messageTogle: true,
-                temporalUser: {
-                   id: id,
-                   nickName: name,
-             },
-        });
-        }.bind(this);
     }
 
     componentDidMount(){
@@ -127,7 +111,6 @@ class ContactList extends React.Component{
                     initiallyOpen={false}
                     primaryTogglesNestedList={true}
                     nestedItems={[
-                    <ListItem key={1} onTouchTap={this.handleSendMessage(obj.nickName,obj._id)}  leftIcon={<ContentDrafts />} > Send message</ListItem>,
                     <ListItem key={2} onTouchTap={this.handleOpenConversation(obj.nickName,obj._id)}  leftIcon={<ChatIcon />} > Open Conversation</ListItem>,
                     <ListItem key={3} onTouchTap={this.handleDeleteTogle(obj.nickName,obj._id)}  leftIcon={<DeleteIcon />} > Delete Contact</ListItem>,
                   ]}
@@ -143,7 +126,6 @@ class ContactList extends React.Component{
                            
                              <Tabs  style={styles.tabs}>
                               <Tab label="Contacts">
-                            <SendMessageDialog messageTogle={this.state.messageTogle} temporalUser={this.state.temporalUser} onCloseHandler={this.handleRequestClose} />
                             <DeleteDialog deleteTogle={this.state.deleteTogle} userToDelete={this.state.userToDelete} onCloseHandler={this.handleDeleteCloseRequest}  />
                             <div  style={styles.contacts}>
                             <Card  >

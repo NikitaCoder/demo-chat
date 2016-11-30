@@ -239,11 +239,6 @@ UserStore.dispatchToken = AppDispatcher.register(function(payload){
       window.location.href='#/home';
       UserStore.emitChange();
       break;
-    case 'sendMessage': 
-      if(UserSocket){
-        UserSocket.emit('send message',payload.data);
-      }
-      break;
     case 'openConversation':
       Conversation[payload.data.conv_id] = payload.data.messages;
       window.location.href='#/conversation/'+payload.data.conv_id;
