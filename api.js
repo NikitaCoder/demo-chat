@@ -34,7 +34,7 @@ var ObjectId = require('mongoose').Types.ObjectId;
 mongoose.Promise = global.Promise;
 
 // connect mogodb
-mongoose.connect('mongodb://mr_green:do_12jkfwe@ds155087.mlab.com:55087/demo_chat');
+mongoose.connect('mongodb://user:qwerty11@ds115918.mlab.com:15918/one_more_demo');
 
 // bearerToken
 router.use(bearerToken());
@@ -453,7 +453,7 @@ router.post('/addRequest', (req,res) =>{
         else{
             Contact.findOne({contactId: ObjectId(decoded.data.id), userId: ObjectId(req.body.contact_id)}, (err,cont) => {
                 if(err){
-                    console.log(err);
+                   // console.log(err);
                 }
                 else{
                     if(cont){
@@ -466,7 +466,7 @@ router.post('/addRequest', (req,res) =>{
                         else{
                             Contact.update({_id: ObjectId(cont._id)},{ confirmed: true}, (err)=>{
                                 if(err){
-                                    console.log(err);
+                                   // console.log(err);
                                 }
                                 else{
                                     newCon = new Contact({
@@ -476,7 +476,7 @@ router.post('/addRequest', (req,res) =>{
                                     });
                                     newCon.save((err, cont) =>{
                             if(err){
-                                console.log(err);
+                               // console.log(err);
                             }
                             else{
                                 newNotif = new Notification({
@@ -487,12 +487,12 @@ router.post('/addRequest', (req,res) =>{
                                 });
                                 newNotif.save((err,not) =>{
                                     if(err){
-                                        console.log(err);
+                                      //  console.log(err);
                                     }
                                     else{
                                         Contact.populate(cont,{path: 'userId contactId'},(err,cont)=>{
                                             if(err){
-                                                console.log(err);
+                                              //  console.log(err);
                                             }
                                             else{
                                                 if(cont){
@@ -523,7 +523,7 @@ router.post('/addRequest', (req,res) =>{
                         });
                         newCont.save((err, cont) =>{
                             if(err){
-                                console.log(err);
+                               // console.log(err);
                             }
                             else{
                                 if(cont){
@@ -535,12 +535,12 @@ router.post('/addRequest', (req,res) =>{
                                     });
                                     newNotif.save((err,not) =>{
                                     if(err){
-                                        console.log(err);
+                                       // console.log(err);
                                     }
                                     else{
                                         Contact.populate(cont,{path: 'userId contactId'},(err,cont)=>{
                                             if(err){
-                                                console.log(err);
+                                              //  console.log(err);
                                             }
                                             else{
                                                 if(cont){
