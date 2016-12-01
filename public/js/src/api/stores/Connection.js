@@ -31,6 +31,7 @@ exports.deployConnection =  () => {
   });
 
   socket.on('incoming request', (incoming) =>{
+    console.log('incoming');
       AppDispatcher.dispatch({
       eventType: 'icomingRequest',
       data: incoming,

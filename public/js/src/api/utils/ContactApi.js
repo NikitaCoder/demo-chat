@@ -45,7 +45,6 @@ exports.addContactRequest = (data) =>{
     return res.json();
   }).then(function(json){
     if(json.status){
-        console.log(json);
         var request = 
         {
             reqInfo: {

@@ -50103,6 +50103,10 @@
 
 	var _UserMenu2 = _interopRequireDefault(_UserMenu);
 
+	var _GuestMenu = __webpack_require__(669);
+
+	var _GuestMenu2 = _interopRequireDefault(_GuestMenu);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -50167,33 +50171,10 @@
 	                        openSecondary: true
 	                    },
 	                    _react2.default.createElement(
-	                        'a',
-	                        { className: 'menu_link', href: '#/home' },
-	                        _react2.default.createElement(
-	                            _MenuItem2.default,
-	                            { onTouchTap: this.handleClose },
-	                            'Home'
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        'a',
-	                        { className: 'menu_link', href: '#/getstarted' },
-	                        _react2.default.createElement(
-	                            _MenuItem2.default,
-	                            { onTouchTap: this.handleClose },
-	                            'Get Started'
-	                        )
-	                    ),
-	                    _react2.default.createElement(
-	                        'a',
-	                        { className: 'menu_link', href: '#/register' },
-	                        _react2.default.createElement(
-	                            _MenuItem2.default,
-	                            { onTouchTap: this.handleClose },
-	                            'Register'
-	                        )
-	                    ),
-	                    this.props.loggedIn ? _react2.default.createElement(_UserMenu2.default, null) : ""
+	                        'div',
+	                        { style: { textAlign: 'center' } },
+	                        this.props.loggedIn ? _react2.default.createElement(_UserMenu2.default, { handleClose: this.handleClose }) : _react2.default.createElement(_GuestMenu2.default, { handleClose: this.handleClose })
+	                    )
 	                )
 	            );
 	        }
@@ -53193,7 +53174,6 @@
 	    return res.json();
 	  }).then(function (json) {
 	    if (json.status) {
-	      console.log(json);
 	      var request = {
 	        reqInfo: {
 	          snackbar: true,
@@ -53960,6 +53940,7 @@
 	  });
 
 	  socket.on('incoming request', function (incoming) {
+	    console.log('incoming');
 	    AppDispatcher.dispatch({
 	      eventType: 'icomingRequest',
 	      data: incoming
@@ -62903,9 +62884,11 @@
 	        case 'notificationRead':
 	            changeNotificationById(payload.data.id);
 	            NotificationStore.emitChange();
+	            break;
 	        case 'notificationDeleted':
 	            deleteNotification(payload.data.id);
 	            NotificationStore.emitChange();
+	            break;
 	        case 'userChecked':
 	            Notifications = payload.data.notifs.msg;
 	            Count = payload.data.notifs.count;
@@ -63205,7 +63188,7 @@
 	                    { className: 'menu_link', href: '#/notifications' },
 	                    _react2.default.createElement(
 	                        _MenuItem2.default,
-	                        { onTouchTap: this.handleClose },
+	                        { onTouchTap: this.props.handleClose },
 	                        'Notifications'
 	                    )
 	                ),
@@ -63214,7 +63197,7 @@
 	                    { className: 'menu_link', href: '#/profile' },
 	                    _react2.default.createElement(
 	                        _MenuItem2.default,
-	                        { onTouchTap: this.handleClose },
+	                        { onTouchTap: this.props.handleClose },
 	                        'Profile'
 	                    )
 	                ),
@@ -63223,7 +63206,7 @@
 	                    { className: 'menu_link', href: '#/contacts' },
 	                    _react2.default.createElement(
 	                        _MenuItem2.default,
-	                        { onTouchTap: this.handleClose },
+	                        { onTouchTap: this.props.handleClose },
 	                        'Contacts'
 	                    )
 	                )
@@ -63673,31 +63656,31 @@
 
 	var _Notifications2 = _interopRequireDefault(_Notifications);
 
-	var _reactTapEventPlugin = __webpack_require__(635);
+	var _reactTapEventPlugin = __webpack_require__(636);
 
 	var _reactTapEventPlugin2 = _interopRequireDefault(_reactTapEventPlugin);
 
-	var _Register = __webpack_require__(641);
+	var _Register = __webpack_require__(642);
 
 	var _Register2 = _interopRequireDefault(_Register);
 
-	var _Skeleton = __webpack_require__(645);
+	var _Skeleton = __webpack_require__(646);
 
 	var _Skeleton2 = _interopRequireDefault(_Skeleton);
 
-	var _GetStarted = __webpack_require__(647);
+	var _GetStarted = __webpack_require__(648);
 
 	var _GetStarted2 = _interopRequireDefault(_GetStarted);
 
-	var _UserPage = __webpack_require__(648);
+	var _UserPage = __webpack_require__(649);
 
 	var _UserPage2 = _interopRequireDefault(_UserPage);
 
-	var _Conversation = __webpack_require__(653);
+	var _Conversation = __webpack_require__(654);
 
 	var _Conversation2 = _interopRequireDefault(_Conversation);
 
-	var _ContactsList = __webpack_require__(656);
+	var _ContactsList = __webpack_require__(657);
 
 	var _ContactsList2 = _interopRequireDefault(_ContactsList);
 
@@ -68615,7 +68598,7 @@
 
 	var _NotificationStore2 = _interopRequireDefault(_NotificationStore);
 
-	var _delete = __webpack_require__(661);
+	var _delete = __webpack_require__(635);
 
 	var _delete2 = _interopRequireDefault(_delete);
 
@@ -70234,8 +70217,45 @@
 /* 635 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var invariant = __webpack_require__(636);
-	var defaultClickRejectionStrategy = __webpack_require__(637);
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _pure = __webpack_require__(383);
+
+	var _pure2 = _interopRequireDefault(_pure);
+
+	var _SvgIcon = __webpack_require__(392);
+
+	var _SvgIcon2 = _interopRequireDefault(_SvgIcon);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var ActionDelete = function ActionDelete(props) {
+	  return _react2.default.createElement(
+	    _SvgIcon2.default,
+	    props,
+	    _react2.default.createElement('path', { d: 'M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z' })
+	  );
+	};
+	ActionDelete = (0, _pure2.default)(ActionDelete);
+	ActionDelete.displayName = 'ActionDelete';
+	ActionDelete.muiName = 'SvgIcon';
+
+	exports.default = ActionDelete;
+
+/***/ },
+/* 636 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {var invariant = __webpack_require__(637);
+	var defaultClickRejectionStrategy = __webpack_require__(638);
 
 	var alreadyInjected = false;
 
@@ -70257,14 +70277,14 @@
 	  alreadyInjected = true;
 
 	  __webpack_require__(43).injection.injectEventPluginsByName({
-	    'TapEventPlugin':       __webpack_require__(638)(shouldRejectClick)
+	    'TapEventPlugin':       __webpack_require__(639)(shouldRejectClick)
 	  });
 	};
 
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 636 */
+/* 637 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -70319,7 +70339,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 637 */
+/* 638 */
 /***/ function(module, exports) {
 
 	module.exports = function(lastTouchEvent, clickTimestamp) {
@@ -70330,7 +70350,7 @@
 
 
 /***/ },
-/* 638 */
+/* 639 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -70358,10 +70378,10 @@
 	var EventPluginUtils = __webpack_require__(45);
 	var EventPropagators = __webpack_require__(42);
 	var SyntheticUIEvent = __webpack_require__(76);
-	var TouchEventUtils = __webpack_require__(639);
+	var TouchEventUtils = __webpack_require__(640);
 	var ViewportMetrics = __webpack_require__(77);
 
-	var keyOf = __webpack_require__(640);
+	var keyOf = __webpack_require__(641);
 	var topLevelTypes = EventConstants.topLevelTypes;
 
 	var isStartish = EventPluginUtils.isStartish;
@@ -70506,7 +70526,7 @@
 
 
 /***/ },
-/* 639 */
+/* 640 */
 /***/ function(module, exports) {
 
 	/**
@@ -70554,7 +70574,7 @@
 
 
 /***/ },
-/* 640 */
+/* 641 */
 /***/ function(module, exports) {
 
 	/**
@@ -70594,7 +70614,7 @@
 	module.exports = keyOf;
 
 /***/ },
-/* 641 */
+/* 642 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -70617,11 +70637,11 @@
 
 	var _Header2 = _interopRequireDefault(_Header);
 
-	var _RegisterForm = __webpack_require__(642);
+	var _RegisterForm = __webpack_require__(643);
 
 	var _RegisterForm2 = _interopRequireDefault(_RegisterForm);
 
-	var _RegisterError = __webpack_require__(644);
+	var _RegisterError = __webpack_require__(645);
 
 	var _RegisterError2 = _interopRequireDefault(_RegisterError);
 
@@ -70718,7 +70738,7 @@
 	module.exports = Register;
 
 /***/ },
-/* 642 */
+/* 643 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -70741,7 +70761,7 @@
 
 	var _UserStore2 = _interopRequireDefault(_UserStore);
 
-	var _RegisterActions = __webpack_require__(643);
+	var _RegisterActions = __webpack_require__(644);
 
 	var _RegisterActions2 = _interopRequireDefault(_RegisterActions);
 
@@ -70890,7 +70910,7 @@
 	module.exports = RegisterForm;
 
 /***/ },
-/* 643 */
+/* 644 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -70917,7 +70937,7 @@
 	module.exports = RegisterActions;
 
 /***/ },
-/* 644 */
+/* 645 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -70940,7 +70960,7 @@
 
 	var _UserStore2 = _interopRequireDefault(_UserStore);
 
-	var _RegisterActions = __webpack_require__(643);
+	var _RegisterActions = __webpack_require__(644);
 
 	var _RegisterActions2 = _interopRequireDefault(_RegisterActions);
 
@@ -71076,7 +71096,7 @@
 	module.exports = RegisterError;
 
 /***/ },
-/* 645 */
+/* 646 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -71093,7 +71113,7 @@
 
 	var _MuiThemeProvider2 = _interopRequireDefault(_MuiThemeProvider);
 
-	var _muiTheme = __webpack_require__(646);
+	var _muiTheme = __webpack_require__(647);
 
 	var _muiTheme2 = _interopRequireDefault(_muiTheme);
 
@@ -71113,7 +71133,7 @@
 	module.exports = Skeleton;
 
 /***/ },
-/* 646 */
+/* 647 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -71154,7 +71174,7 @@
 	module.exports = muiTheme;
 
 /***/ },
-/* 647 */
+/* 648 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -71181,11 +71201,11 @@
 
 	var _Header2 = _interopRequireDefault(_Header);
 
-	var _RegisterForm = __webpack_require__(642);
+	var _RegisterForm = __webpack_require__(643);
 
 	var _RegisterForm2 = _interopRequireDefault(_RegisterForm);
 
-	var _muiTheme = __webpack_require__(646);
+	var _muiTheme = __webpack_require__(647);
 
 	var _muiTheme2 = _interopRequireDefault(_muiTheme);
 
@@ -71290,7 +71310,7 @@
 	module.exports = GetStarted;
 
 /***/ },
-/* 648 */
+/* 649 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -71317,7 +71337,7 @@
 
 	var _styles2 = _interopRequireDefault(_styles);
 
-	var _UserData = __webpack_require__(649);
+	var _UserData = __webpack_require__(650);
 
 	var _UserData2 = _interopRequireDefault(_UserData);
 
@@ -71393,7 +71413,7 @@
 	module.exports = UserPage;
 
 /***/ },
-/* 649 */
+/* 650 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -71424,7 +71444,7 @@
 
 	var _List = __webpack_require__(623);
 
-	var _grade = __webpack_require__(650);
+	var _grade = __webpack_require__(651);
 
 	var _grade2 = _interopRequireDefault(_grade);
 
@@ -71438,7 +71458,7 @@
 
 	var _Subheader2 = _interopRequireDefault(_Subheader);
 
-	var _chatBubble = __webpack_require__(651);
+	var _chatBubble = __webpack_require__(652);
 
 	var _chatBubble2 = _interopRequireDefault(_chatBubble);
 
@@ -71450,7 +71470,7 @@
 
 	var _UserStore2 = _interopRequireDefault(_UserStore);
 
-	var _ConversationStore = __webpack_require__(652);
+	var _ConversationStore = __webpack_require__(653);
 
 	var _ConversationStore2 = _interopRequireDefault(_ConversationStore);
 
@@ -71644,7 +71664,7 @@
 	module.exports = UserData;
 
 /***/ },
-/* 650 */
+/* 651 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -71681,7 +71701,7 @@
 	exports.default = ActionGrade;
 
 /***/ },
-/* 651 */
+/* 652 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -71718,7 +71738,7 @@
 	exports.default = CommunicationChatBubble;
 
 /***/ },
-/* 652 */
+/* 653 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -71765,7 +71785,7 @@
 	module.exports = ConversationStore;
 
 /***/ },
-/* 653 */
+/* 654 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -71788,17 +71808,17 @@
 
 	var _styles2 = _interopRequireDefault(_styles);
 
-	var _Posts = __webpack_require__(654);
+	var _Posts = __webpack_require__(655);
 
 	var _Posts2 = _interopRequireDefault(_Posts);
 
-	var _PostForm = __webpack_require__(655);
+	var _PostForm = __webpack_require__(656);
 
 	var _PostForm2 = _interopRequireDefault(_PostForm);
 
 	var _List = __webpack_require__(623);
 
-	var _grade = __webpack_require__(650);
+	var _grade = __webpack_require__(651);
 
 	var _grade2 = _interopRequireDefault(_grade);
 
@@ -71897,7 +71917,7 @@
 	module.exports = Conversation;
 
 /***/ },
-/* 654 */
+/* 655 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -71969,7 +71989,7 @@
 	module.exports = Posts;
 
 /***/ },
-/* 655 */
+/* 656 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -72061,7 +72081,7 @@
 	                    null,
 	                    _react2.default.createElement(_Card.CardHeader, {
 	                        title: this.props.user.nickName,
-	                        avatar: this.props.user.avatar ? 'uploads/avatars/' + this.props.user.avatar : "logo/logo.png"
+	                        avatar: this.props.user.avatar ? 'uploads/avatars/' + this.props.user.avatar : "logo/no-avatar.png"
 	                    }),
 	                    _react2.default.createElement(
 	                        _Card.CardText,
@@ -72077,9 +72097,7 @@
 	                            fullWidth: true
 	                        }),
 	                        _react2.default.createElement('br', null),
-	                        _react2.default.createElement(_RaisedButton2.default, { label: 'Send', onClick: this.handleSend, primary: true }),
-	                        _react2.default.createElement(_FlatButton2.default, { label: 'Action1' }),
-	                        _react2.default.createElement(_FlatButton2.default, { label: 'Action2' })
+	                        _react2.default.createElement(_RaisedButton2.default, { label: 'Send', onClick: this.handleSend, primary: true })
 	                    )
 	                )
 	            );
@@ -72092,7 +72110,7 @@
 	module.exports = PostForm;
 
 /***/ },
-/* 656 */
+/* 657 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -72115,7 +72133,7 @@
 
 	var _styles2 = _interopRequireDefault(_styles);
 
-	var _DeleteDialog = __webpack_require__(657);
+	var _DeleteDialog = __webpack_require__(658);
 
 	var _DeleteDialog2 = _interopRequireDefault(_DeleteDialog);
 
@@ -72149,19 +72167,19 @@
 
 	var _ContactActions2 = _interopRequireDefault(_ContactActions);
 
-	var _drafts = __webpack_require__(658);
+	var _drafts = __webpack_require__(659);
 
 	var _drafts2 = _interopRequireDefault(_drafts);
 
-	var _chat = __webpack_require__(659);
+	var _chat = __webpack_require__(660);
 
 	var _chat2 = _interopRequireDefault(_chat);
 
-	var _done = __webpack_require__(660);
+	var _done = __webpack_require__(661);
 
 	var _done2 = _interopRequireDefault(_done);
 
-	var _delete = __webpack_require__(661);
+	var _delete = __webpack_require__(635);
 
 	var _delete2 = _interopRequireDefault(_delete);
 
@@ -72365,7 +72383,7 @@
 	module.exports = ContactList;
 
 /***/ },
-/* 657 */
+/* 658 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -72465,7 +72483,7 @@
 	module.exports = DeleteDialog;
 
 /***/ },
-/* 658 */
+/* 659 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -72502,7 +72520,7 @@
 	exports.default = ContentDrafts;
 
 /***/ },
-/* 659 */
+/* 660 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -72539,7 +72557,7 @@
 	exports.default = CommunicationChat;
 
 /***/ },
-/* 660 */
+/* 661 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -72574,43 +72592,6 @@
 	ActionDone.muiName = 'SvgIcon';
 
 	exports.default = ActionDone;
-
-/***/ },
-/* 661 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _pure = __webpack_require__(383);
-
-	var _pure2 = _interopRequireDefault(_pure);
-
-	var _SvgIcon = __webpack_require__(392);
-
-	var _SvgIcon2 = _interopRequireDefault(_SvgIcon);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var ActionDelete = function ActionDelete(props) {
-	  return _react2.default.createElement(
-	    _SvgIcon2.default,
-	    props,
-	    _react2.default.createElement('path', { d: 'M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z' })
-	  );
-	};
-	ActionDelete = (0, _pure2.default)(ActionDelete);
-	ActionDelete.displayName = 'ActionDelete';
-	ActionDelete.muiName = 'SvgIcon';
-
-	exports.default = ActionDelete;
 
 /***/ },
 /* 662 */
@@ -73338,11 +73319,11 @@
 
 	var _List = __webpack_require__(623);
 
-	var _done = __webpack_require__(660);
+	var _done = __webpack_require__(661);
 
 	var _done2 = _interopRequireDefault(_done);
 
-	var _delete = __webpack_require__(661);
+	var _delete = __webpack_require__(635);
 
 	var _delete2 = _interopRequireDefault(_delete);
 
@@ -73516,11 +73497,11 @@
 
 	var _List = __webpack_require__(623);
 
-	var _done = __webpack_require__(660);
+	var _done = __webpack_require__(661);
 
 	var _done2 = _interopRequireDefault(_done);
 
-	var _delete = __webpack_require__(661);
+	var _delete = __webpack_require__(635);
 
 	var _delete2 = _interopRequireDefault(_delete);
 
@@ -73667,6 +73648,81 @@
 	}(_react2.default.Component);
 
 	module.exports = OutcomingRequests;
+
+/***/ },
+/* 669 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _MenuItem = __webpack_require__(480);
+
+	var _MenuItem2 = _interopRequireDefault(_MenuItem);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var GuestMenu = function (_React$Component) {
+	    _inherits(GuestMenu, _React$Component);
+
+	    function GuestMenu(props) {
+	        _classCallCheck(this, GuestMenu);
+
+	        return _possibleConstructorReturn(this, (GuestMenu.__proto__ || Object.getPrototypeOf(GuestMenu)).call(this, props));
+	    }
+
+	    _createClass(GuestMenu, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                _react2.default.createElement(
+	                    'a',
+	                    { className: 'menu_link', href: '#/home' },
+	                    _react2.default.createElement(
+	                        _MenuItem2.default,
+	                        { onTouchTap: this.props.handleClose },
+	                        'Home'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'a',
+	                    { className: 'menu_link', href: '#/getstarted' },
+	                    _react2.default.createElement(
+	                        _MenuItem2.default,
+	                        { onTouchTap: this.props.handleClose },
+	                        'Get Started'
+	                    )
+	                ),
+	                _react2.default.createElement(
+	                    'a',
+	                    { className: 'menu_link', href: '#/register' },
+	                    _react2.default.createElement(
+	                        _MenuItem2.default,
+	                        { onTouchTap: this.props.handleClose },
+	                        'Register'
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return GuestMenu;
+	}(_react2.default.Component);
+
+	module.exports = GuestMenu;
 
 /***/ }
 /******/ ]);

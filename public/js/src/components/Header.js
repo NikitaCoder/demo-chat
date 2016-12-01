@@ -9,6 +9,7 @@ import AutoComplete from 'material-ui/AutoComplete';
 import UserBar from './UserBar';
 import GuestBar from './GuestBar';
 import UserMenu from './UserMenu';
+import GuestMenu from './GuestMenu';
 
 class Header extends React.Component{
     constructor(props){
@@ -42,17 +43,17 @@ class Header extends React.Component{
         return(
             <header>
                 {menu}
-                <Drawer
+                <Drawer 
                     docked={false}
                     width={200}
                     open={this.state.open}
                     onRequestChange={(open) => this.setState({open})}
                     openSecondary={true}
                 >
-                    <a className="menu_link" href="#/home"><MenuItem onTouchTap={this.handleClose}>Home</MenuItem></a>
-                    <a className="menu_link" href="#/getstarted"><MenuItem onTouchTap={this.handleClose}>Get Started</MenuItem></a>
-                    <a className="menu_link" href="#/register"><MenuItem onTouchTap={this.handleClose}>Register</MenuItem></a>
-                    {this.props.loggedIn ? <UserMenu /> : ""}
+                <div style={{textAlign: 'center'}} >
+                    
+                    {this.props.loggedIn ? <UserMenu handleClose={this.handleClose} /> : <GuestMenu handleClose={this.handleClose} />}
+                </div>
                 </Drawer>
             </header>
         );

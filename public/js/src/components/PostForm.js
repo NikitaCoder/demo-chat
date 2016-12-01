@@ -41,7 +41,7 @@ class PostForm extends React.Component{
                 <Card>
                     <CardHeader
                     title={this.props.user.nickName}
-                    avatar={this.props.user.avatar ? 'uploads/avatars/' + this.props.user.avatar : "logo/logo.png"}
+                    avatar={this.props.user.avatar ? 'uploads/avatars/' + this.props.user.avatar : "logo/no-avatar.png"}
                     />
                     <CardText>
                          <TextField
@@ -55,8 +55,7 @@ class PostForm extends React.Component{
                             fullWidth={true}
                             /><br />
                         <RaisedButton  label="Send" onClick={this.handleSend}  primary={true}/>
-                        <FlatButton label="Action1" />
-                        <FlatButton label="Action2" />
+                        
                     </CardText>
                 </Card>
             </div>

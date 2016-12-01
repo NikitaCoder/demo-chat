@@ -410,8 +410,11 @@ router.post('/getContacts',(req,res) => {
                     console.log(err);
                 }
                 else{
+                   
                     var AllContacts = contacts.map((obj) =>{
-                        return obj.contactId;
+                        if(obj.contactId){
+                            return obj.contactId;
+                        }
                     });
                     Contact.find({userId: ObjectId(decoded.data.id), confirmed: false})
                     .populate('userId')
@@ -422,7 +425,9 @@ router.post('/getContacts',(req,res) => {
                         }
                         else{
                             var OutComingRequests = contacts.map((obj) =>{
-                                 return obj.contactId;
+                                if(obj.contactId){
+                                    return obj.contactId;
+                                }
                             });
                                
                              Contact.find({contactId: ObjectId(decoded.data.id), confirmed: false})
@@ -434,7 +439,9 @@ router.post('/getContacts',(req,res) => {
                                     }
                                     else{
                                         var IncomingRequests = contacts.map((obj) =>{
-                                            return obj.userId;
+                                            if(obj.userId){
+                                                return obj.userId;
+                                            }
                                         });
                                            res.send(JSON.stringify({
                                                 status: true,

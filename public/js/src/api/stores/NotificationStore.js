@@ -67,9 +67,11 @@ NotificationStore.dispatchToken = AppDispatcher.register(function(payload){
     case 'notificationRead':
         changeNotificationById(payload.data.id);
         NotificationStore.emitChange();
+        break;
     case 'notificationDeleted':
         deleteNotification(payload.data.id);
         NotificationStore.emitChange();
+        break;
     case 'userChecked':
         Notifications = payload.data.notifs.msg;
         Count = payload.data.notifs.count

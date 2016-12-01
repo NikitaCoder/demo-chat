@@ -9,9 +9,9 @@ class UserMenu extends React.Component{
     render(){
         return (
             <div>
-                    <a className="menu_link" href="#/notifications"><MenuItem onTouchTap={this.handleClose}>Notifications</MenuItem></a>
-                    <a className="menu_link" href="#/profile"><MenuItem onTouchTap={this.handleClose}>Profile</MenuItem></a>
-                    <a className="menu_link" href="#/contacts"><MenuItem onTouchTap={this.handleClose}>Contacts</MenuItem></a>
+                    <a className="menu_link" href="#/notifications"><MenuItem onTouchTap={this.props.handleClose}>Notifications</MenuItem></a>
+                    <a className="menu_link" href="#/profile"><MenuItem onTouchTap={this.props.handleClose}>Profile</MenuItem></a>
+                    <a className="menu_link" href="#/contacts"><MenuItem onTouchTap={this.props.handleClose}>Contacts</MenuItem></a>
             </div>
         );
     }
