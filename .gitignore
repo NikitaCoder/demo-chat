@@ -1,3 +1,4 @@
 node_modules/
 materialExam/
 public/uploads/
+.db_conf
