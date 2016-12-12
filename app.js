@@ -11,7 +11,7 @@ const bearerToken = require('express-bearer-token');
 
 const cert = fs.readFileSync('public.key').toString();
 
-process.env.NODE_ENV = 'development';
+process.env.NODE_ENV = 'production';
 
 //bodyParser
 app.use(bodyParser.json());
